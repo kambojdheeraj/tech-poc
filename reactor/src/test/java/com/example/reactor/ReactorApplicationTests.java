@@ -22,5 +22,31 @@ class ReactorApplicationTests {
 		.verifyComplete();
 		
 	}
+	
+	@Test
+	public void fluxMorePlay() {
+	 Flux<String> obj = Flux.just("abc", "def", "hlm")
+			 				.log()
+	                        .filter(n -> n.contains("hlm"))
+	                        ;
+	 
+	 
+	 StepVerifier.create(obj)
+	             .expectNext("hlm")
+	             .verifyComplete();
+	 
+	
+	 Flux<Player> playerFlux = Flux.just("Michael Jordon", "Sachin Tendulkar")
+			                 .map(n -> {
+			                	 String[] split = n.split("\\s");
+			                	 return new Player(split[0],split[1]);
+			                 });
+	 
+	 StepVerifier.create(playerFlux)
+	 .expectNext(new Player("Michael", "Jordon"))
+	 .expectNext(new Player("Sachin", "Tendulkar"))
+	 .verifyComplete();
+		
+	}
 
 }
